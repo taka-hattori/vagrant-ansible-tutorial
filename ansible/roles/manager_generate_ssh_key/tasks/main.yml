@@ -1,0 +1,11 @@
+---
+- name: Generating RSA Key for vagrant
+  user: name=vagrant generate_ssh_key=yes ssh_key_file={{ rsa_path }}
+
+- name: Pull pub key
+  fetch: src={{ rsa_path }}.pub dest=tmp/ansible_rsa.pub flat=yes
+
+- name: set ~/.ssh/config
+  template: src=ssh-{{ item }}.j2 dest=~/.ssh/{{ item }} owner=vagrant group=vagrant mode=0644 force=yes
+  with_items:
+  - config

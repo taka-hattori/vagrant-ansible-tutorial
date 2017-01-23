@@ -1,0 +1,15 @@
+---
+- name: install the latest of package related to vim
+  become: yes
+  yum: name={{ item }} state=latest
+  with_items:
+  - mercurial
+  - ncurses-devel
+  - make
+  - gcc
+  - vim-enhanced
+
+- name: update .vimrc
+  template: src={{ item }}.j2 dest=~/.{{ item }} mode=644
+  with_items:
+  - vimrc

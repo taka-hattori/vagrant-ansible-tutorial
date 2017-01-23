@@ -1,0 +1,6 @@
+---
+- hosts: server
+  user: vagrant
+  roles:
+  - common
+  - server_init

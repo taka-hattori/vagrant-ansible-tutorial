@@ -1,0 +1,18 @@
+---
+- name: add user for ansible
+  become: yes
+  #password is created: 
+  #python -c 'import crypt; print crypt.crypt("ansible", "$1$SomeSalt$")'
+  #if you change another password, you change "ansible" to "smth"...
+  user: name=ansible password=$1$SomeSalt$LRZdP3TwZZZ/q8adbdC0g0
+
+- name: set authorized key
+  become: yes
+  authorized_key: user=ansible key="{{ lookup('file','tmp/ansible_rsa.pub') }}"
+
+- name: set /etc/ssh/sshd_config
+  become: yes
+  copy: src={{ item }}.j2 dest=/etc/ssh/sshd_config
+  with_items:
+  - sshd_config
+  notify: restart sshd

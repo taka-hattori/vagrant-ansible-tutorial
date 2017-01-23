@@ -1,0 +1,7 @@
+---
+- hosts: manager
+  user: vagrant
+  roles:
+  - common 
+  - manager_init
+  - manager_generate_ssh_key
